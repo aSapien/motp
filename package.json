@@ -1,0 +1,27 @@
+{
+  "name": "motp",
+  "version": "1.0.0",
+  "description": "CLI OTP manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dima Ryskin",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimarwix/motp.git"
+  },
+  "keywords": [
+    "OTP",
+    "OAUTH"
+  ],
+  "bugs": {
+    "url": "https://github.com/dimarwix/motp/issues"
+  },
+  "homepage": "https://github.com/dimarwix/motp#readme",
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "mocha": "^3.5.0"
+  }
+}
