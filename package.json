@@ -4,7 +4,7 @@
   "description": "CLI OTP manager",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha */**/*.spec.js --color"
   },
   "author": "Dima Ryskin",
   "license": "ISC",
@@ -23,5 +23,8 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "mocha": "^3.5.0"
+  },
+  "dependencies": {
+    "otplib": "^5.0.0"
   }
 }
