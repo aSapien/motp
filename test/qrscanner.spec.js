@@ -16,7 +16,7 @@ describe('QR Scanner', () => {
 
             return scan(pair[0])
                 .then(decoded => {
-                    expect(decoded.result).to.be.equals(`${TOTP_URL_START}${pair[1]}`);
+                    expect(decoded).to.be.equals(`${TOTP_URL_START}${pair[1]}`);
                 })
                 .catch(err => {
                     throw err;
