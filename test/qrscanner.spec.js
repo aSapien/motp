@@ -26,6 +26,6 @@ describe('QR Scanner', () => {
 
     it('Should parse "otpauth://..." uri and extract the "secret" query param as "key"', () => {
         const parsed = parse(`${TOTP_URL_START}${IMAGE_TO_EXPECTATION[0][1]}`);
-       expect(parsed.key).to.be.equal('2z6hxkdwi3uvrnpn');
+        expect(parsed.key).to.be.equal('2z6hxkdwi3uvrnpn');
     });
 });
