@@ -1,11 +1,18 @@
-const { createDir } = require('../lib/storage');
+const { insert, remove } = require('../lib/storage');
 const { expect } = require('chai');
-const { existsSync } = require('fs');
 
 describe('Storage', () => {
-  xit('Should create a "storage" folder in root if doesn\'t exist', () => {
-    expect(existsSync(`${process.cwd()}/storageTest`)).to.be.false;
-    createDir();
-    expect(existsSync(`${process.cwd()}/storageTest`)).to.be.true;
+  it('Writes key/alias pairs to storage', () => {
+    return insert({ alias: 'test1', key: 'ZVMDU4NOTXEJGGET' })
+      .then(res => {
+        expect(res.key).to.be.equal('ZVMDU4NOTXEJGGET');
+      });
+  });
+
+  it('Removes key/alias pairs from storage', () => {
+    return remove('test1')
+      .then(numRemoved => {
+        expect(numRemoved).to.be.equal(1);
+      });
   });
 });

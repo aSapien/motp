@@ -1,52 +1,32 @@
 const API = require('../lib/api');
-const { expect } = require('chai');
+const chai = require('chai');
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+const storage = require('../lib/storage');
+const { isValidOtp, EXAMPLE_KEY } = require('./resources/utils');
+
+chai.use(sinonChai);
+const expect = chai.expect;
 
 describe('API', () => {
-  it('Given a QR file path - Should return the resulting OTP string', () => {
-    return API.qrToOTP('./test/resources/qr/1.png')
-      .then(res => {
-        expect(res).to.be.lengthOf(6);
-        expect(!!Number(res)).to.be.true;
-      });
-  });
+  describe('exec() function', () => {
+    it('Given a QR file path - Should return the resulting OTP string', () => {
+      return API.exec('./test/resources/qr/1.png')
+        .then(res => {
+          expect(isValidOtp(res)).to.be.true;
+        });
+    });
 
-  it('Given a QR file path, with --key flag - Should return the key, represented in the QR image', () => {
-    return API.qrToKey('./test/resources/qr/1.png')
-      .then(res => {
-        expect(res).to.be.lengthOf(6);
-        expect(!!Number(res)).to.be.true;
-      });
-  });
+    it('Given a QR file path, with --save-as <name> flag - Should save the key represented in the QR image under <name>', () => {
+      sinon.stub(storage, 'insert').resolves('1'.repeat(5));
 
-  it('Given a QR file path, with --save <name> flag - Should save the key represented in the QR image under <name>', () => {
-    return API.qrToKey('./test/resources/qr/1.png', { save: true })
-      .then(res => {
-        expect(res).to.be.lengthOf(6);
-        expect(!!Number(res)).to.be.true;
-      });
-  });
+      return API.exec('./test/resources/qr/2.png', { saveAs: 'some-name-here' })
+        .then(res => {
+          expect(isValidOtp(res)).to.be.true;
+          expect(storage.insert, 'Called insert()').to.have.been.calledWithExactly({ alias: 'some-name-here', key: EXAMPLE_KEY });
 
-  it('Given a --list flag - Should list a map of all saved services and corresponding keys', () => {
-    return API.qrToKey('./test/resources/qr/1.png', { list: true })
-      .then(res => {
-        expect(res).to.be.lengthOf(6);
-        expect(!!Number(res)).to.be.true;
-      });
-  });
-
-  it('Given a --remove flag - Should remove the <name>=<key> pair from the map of all saved services', () => {
-    return API.qrToKey('./test/resources/qr/1.png', { remove: true })
-      .then(res => {
-        expect(res).to.be.lengthOf(6);
-        expect(!!Number(res)).to.be.true;
-      });
-  });
-
-  it('Given a key, with --save-as <name> flag - Should save the ', () => {
-    return API.qrToKey('./test/resources/qr/1.png')
-      .then(res => {
-        expect(res).to.be.lengthOf(6);
-        expect(!!Number(res)).to.be.true;
-      });
+          storage.insert.restore();
+        });
+    });
   });
 });

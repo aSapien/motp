@@ -1,12 +1,7 @@
 const { scan } = require('../lib/qrscanner');
 const { expect } = require('chai');
 const { parse } = require('../lib/qrscanner');
-
-const TOTP_URL_START = 'otpauth://totp/';
-const IMAGE_TO_EXPECTATION = [
-  ['./test/resources/qr/1.png', 'roberto@heapsource.com?secret=2z6hxkdwi3uvrnpn'],
-  ['./test/resources/qr/2.png', 'me@brool.com?secret=ZVMDU4NOTXEJGGET'],
-];
+const { TOTP_URL_START, IMAGE_TO_EXPECTATION } = require('./resources/utils');
 
 describe('QR Scanner', () => {
   Array.prototype.forEach.call(IMAGE_TO_EXPECTATION, pair => {
