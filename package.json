@@ -4,10 +4,10 @@
   "description": "CLI OTP manager",
   "main": "index.js",
   "scripts": {
-    "testonly": "mocha {./*.spec.js,{test,lib}/**/*.spec.js} --color",
-    "test": "mocha {mocha-setup,{lib,test}/**/*.spec}.js --color",
+    "testonly": "DEBUG=motp:* nyc --reporter=text mocha {./*.spec.js,{test,lib}/**/*.spec.js} --color",
+    "test": "npm run testonly",
     "pretest": "npm run lint",
-    "watch": "mocha --color --watch {mocha-setup.js,{lib,test}/**/*.spec.js}",
+    "watch": "npm run testonly -- --watch",
     "lint": "eslint ."
   },
   "author": "Dima Ryskin",
@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.7.0",
     "fs-extra": "^4.0.1",
     "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
     "sinon": "^3.0.0",
     "sinon-chai": "^2.12.0"
   },
