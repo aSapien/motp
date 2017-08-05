@@ -12,7 +12,9 @@ const expect = chai.expect;
 describe('API', () => {
   describe('exec() function', () => {
     it('Given a QR file path - Should return the resulting OTP string', () => {
-      return API.exec('./test/resources/qr/1.png')
+      const opts = { qr: true };
+
+      return API.exec('./test/resources/qr/1.png', opts)
         .then(res => {
           expect(isValidOtp(res)).to.be.true;
         });
@@ -20,8 +22,9 @@ describe('API', () => {
 
     it('Given a QR file path, with --save-as <name> flag - Should save the key represented in the QR image under <name>', () => {
       sinon.stub(storage, 'insert').resolves('1'.repeat(5));
+      const opts = { qr: true, saveAs: 'some-name-here' };
 
-      return API.exec('./test/resources/qr/2.png', { saveAs: 'some-name-here' })
+      return API.exec('./test/resources/qr/2.png', opts)
         .then(res => {
           expect(isValidOtp(res)).to.be.true;
           expect(storage.insert, 'Called insert()').to.have.been.calledWithExactly({ alias: 'some-name-here', key: EXAMPLE_KEY });
@@ -37,6 +40,15 @@ describe('API', () => {
         .then(res => {
           const data = _.pick(res[0], ['key', 'alias']);
           expect(data).to.be.deep.equal({ key: 'key', alias: 'alias' });
+        });
+    });
+
+    it('Given no flags - Should ouptut only OTP', () => {
+      return storage
+        .insert({ key: '123456', alias: 'some-alias' })
+        .then(() => API.exec('some-alias', {}))
+        .then(res => {
+          expect(res).to.be.equal('123456');
         });
     });
   });
