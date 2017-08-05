@@ -14,9 +14,14 @@ npm i -g motp
 ## Usage
 1. Scan QR and get the current OTP output to terminal.
 ```sh
-motp /path/to/qr/image.extansion
+motp /path/to/qr/image.ext
 ```
 2. Just get the code output to terminal.
 ```sh
-motp /path/to/qr/image.extansion
+motp /path/to/qr/image.ext
 ```
+
+## ToDo
+- Persist to DB
+- Make runnable on boot => Assign keyboard shortcuts to generate and paste OTP.
+- Wrap with UI interface (Thoughts: Electron ?)
