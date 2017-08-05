@@ -23,7 +23,6 @@ describe('Storage', () => {
   });
 
   it('Lists all key/alias pairs from storage', () => {
-
     return Promise.resolve()
       .then(() => insert({ alias: 'test1', key: 'ZVMDU4NOTXEJGGET' }))
       .then(() => insert({ alias: 'test2', key: 'ZVMDU4NOTXEJGGET' }))
