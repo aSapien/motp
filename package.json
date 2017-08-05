@@ -1,36 +1,47 @@
 {
-  "name": "motp",
-  "version": "1.0.0",
-  "description": "CLI OTP manager",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha */**/*.spec.js --color",
-    "watch": "mocha --color --watch {lib,test}/**/*.js"
-  },
-  "author": "Dima Ryskin",
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dimarwix/motp.git"
-  },
-  "keywords": [
-    "OTP",
-    "OAUTH"
-  ],
-  "bugs": {
-    "url": "https://github.com/dimarwix/motp/issues"
-  },
-  "homepage": "https://github.com/dimarwix/motp#readme",
-  "devDependencies": {
-    "chai": "^4.1.0",
-    "mocha": "^3.5.0"
-  },
-  "dependencies": {
-    "commander": "^2.11.0",
-    "jimp": "^0.2.28",
-    "lodash": "^4.17.4",
-    "otplib": "^5.0.0",
-    "qrcode-reader": "^1.0.2",
-    "url-otpauth": "^2.0.0"
-  }
+    "name": "motp",
+    "version": "1.0.0",
+    "description": "CLI OTP manager",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha {lib,test}/**/*.spec.js --color",
+        "pretest": "npm run lint",
+        "watch": "mocha --color --watch {lib,test}/**/*.js",
+        "lint": "eslint ."
+    },
+    "author": "Dima Ryskin",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sapiend/motp.git"
+    },
+    "keywords": [
+        "OTP",
+        "OAUTH"
+    ],
+    "bugs": {
+        "url": "https://github.com/sapiend/motp/issues"
+    },
+    "homepage": "https://github.com/sapiend/motp#readme",
+    "devDependencies": {
+        "chai": "^4.1.0",
+        "eslint": "^4.3.0",
+        "mocha": "^3.5.0"
+    },
+    "dependencies": {
+        "commander": "^2.11.0",
+        "jimp": "^0.2.28",
+        "lodash": "^4.17.4",
+        "otplib": "^5.0.0",
+        "qrcode-reader": "^1.0.2",
+        "url-otpauth": "^2.0.0"
+    },
+    "eslintConfig": {
+        "parserOptions": {
+            "ecmaVersion": 6
+        },
+        "env": {
+            "node": true
+        }
+    }
 }
