@@ -28,5 +28,14 @@ describe('API', () => {
           storage.insert.restore();
         });
     });
+
+    it('Given a list flag (--list) - Should ouptut all saved pairs', () => {
+
+      return API.exec('./test/resources/qr/2.png', { saveAs: 'test2' })
+        .then(res => {
+          expect(isValidOtp(res)).to.be.true;
+          expect(storage.insert, 'Called insert()').to.have.been.calledWithExactly({ alias: 'some-name-here', key: EXAMPLE_KEY });
+        });
+    });
   });
 });

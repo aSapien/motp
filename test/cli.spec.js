@@ -18,7 +18,7 @@ const execWithParams = (params) => new Promise((resolve, reject) => {
   });
 });
 
-describe('CLI', () => {
+xdescribe('CLI', () => {
   it('Given a QR file path - Should scan a file and output the OTP value', () => {
     return execWithParams(['./test/resources/qr/1.png'])
       .then(res => {
