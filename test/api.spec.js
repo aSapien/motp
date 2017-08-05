@@ -4,6 +4,7 @@ const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const storage = require('../lib/storage');
 const { isValidOtp, EXAMPLE_KEY } = require('./resources/utils');
+const _ = require('lodash');
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -30,11 +31,12 @@ describe('API', () => {
     });
 
     it('Given a list flag (--list) - Should ouptut all saved pairs', () => {
-
-      return API.exec('./test/resources/qr/2.png', { saveAs: 'test2' })
+      return storage
+        .insert({ key: 'key', alias: 'alias' })
+        .then(() => API.exec(`doesn't really matter`, { list: true }))
         .then(res => {
-          expect(isValidOtp(res)).to.be.true;
-          expect(storage.insert, 'Called insert()').to.have.been.calledWithExactly({ alias: 'some-name-here', key: EXAMPLE_KEY });
+          const data = _.pick(res[0], ['key', 'alias']);
+          expect(data).to.be.deep.equal({ key: 'key', alias: 'alias' });
         });
     });
   });
