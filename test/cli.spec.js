@@ -20,12 +20,11 @@ const execWithParams = (params) => new Promise((resolve, reject) => {
   });
 });
 
-describe.only('CLI', () => {
+describe('CLI', () => {
   it('Given a QR file path with QR flag - Should scan a file and output the OTP value', () => {
-    return execWithParams(['./test/resources/qr/1.png', '--qr'])
+    return execWithParams(['./test/resources/qr/1.png', '-q'])
       .then(res => {
-        log('cli res is');
-        expect(isValidOtp(res)).to.be.true;
+        expect(isValidOtp(res.trim())).to.be.true;
       });
   });
 });

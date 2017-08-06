@@ -15,7 +15,7 @@ describe('API', () => {
     describe('Acts on _arg_ according to privided options:', () => {
 
       it('Given (fromQR) flag - Should accept a path and return the resulting OTP string', () => {
-        return API.exec('./test/resources/qr/1.png', { [OPTS.QR]: true })
+        return API.exec('./test/resources/qr/1.png', { [OPTS.FROM_QR]: true })
           .then(res => {
             expect(isValidOtp(res)).to.be.true;
           });
@@ -30,7 +30,7 @@ describe('API', () => {
     });
 
     it('Given a (toKey) flag - Should accpet a QR and return an the corresponding key', () => {
-      return API.exec('./test/resources/qr/2.png', { [OPTS.TO_KEY]: true, [OPTS.QR]: true })
+      return API.exec('./test/resources/qr/2.png', { [OPTS.TO_KEY]: true, [OPTS.FROM_QR]: true })
         .then(res => {
           expect(isValidKey(res)).to.be.true;
         });
