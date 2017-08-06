@@ -13,7 +13,6 @@ const expect = chai.expect;
 describe('API', () => {
   describe('exec() function', () => {
     describe('Acts on _arg_ according to privided options:', () => {
-
       it('Given (fromQR) flag - Should accept a path and return the resulting OTP string', () => {
         return API.exec('./test/resources/qr/1.png', { [OPTS.FROM_QR]: true })
           .then(res => {
