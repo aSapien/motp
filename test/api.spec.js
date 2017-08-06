@@ -1,9 +1,10 @@
 const API = require('../lib/api');
 const chai = require('chai');
-const sinon = require('sinon');
+// const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const storage = require('../lib/storage');
-const { isValidOtp, EXAMPLE_KEY } = require('./resources/utils');
+const { isValidOtp, EXAMPLE_KEY, isValidKey } = require('./resources/utils');
+const { OPTS } = require('../lib/constants');
 const _ = require('lodash');
 
 chai.use(sinonChai);
@@ -11,29 +12,34 @@ const expect = chai.expect;
 
 describe('API', () => {
   describe('exec() function', () => {
-    it('Given a QR file path - Should return the resulting OTP string', () => {
-      return API.exec('./test/resources/qr/1.png')
+    describe('Acts on _arg_ according to privided options:', () => {
+
+      it('Given (fromQR) flag - Should accept a path and return the resulting OTP string', () => {
+        return API.exec('./test/resources/qr/1.png', { [OPTS.QR]: true })
+          .then(res => {
+            expect(isValidOtp(res)).to.be.true;
+          });
+      });
+
+      it('Given (fromKey) flag - Should accept a key string and return the resulting OTP string', () => {
+        return API.exec(EXAMPLE_KEY, { [OPTS.FROM_KEY]: true })
+          .then(res => {
+            expect(isValidOtp(res)).to.be.true;
+          });
+      });
+    });
+
+    it('Given a (toKey) flag - Should accpet a QR and return an the corresponding key', () => {
+      return API.exec('./test/resources/qr/2.png', { [OPTS.TO_KEY]: true, [OPTS.QR]: true })
         .then(res => {
-          expect(isValidOtp(res)).to.be.true;
+          expect(res).to.be.deep.equal({ key: EXAMPLE_KEY });
         });
     });
 
-    it('Given a QR file path, with --save-as <name> flag - Should save the key represented in the QR image under <name>', () => {
-      sinon.stub(storage, 'insert').resolves('1'.repeat(5));
-
-      return API.exec('./test/resources/qr/2.png', { saveAs: 'some-name-here' })
-        .then(res => {
-          expect(isValidOtp(res)).to.be.true;
-          expect(storage.insert, 'Called insert()').to.have.been.calledWithExactly({ alias: 'some-name-here', key: EXAMPLE_KEY });
-
-          storage.insert.restore();
-        });
-    });
-
-    it('Given a list flag (--list) - Should ouptut all saved pairs', () => {
+    it('Given a (list) - Should ignore input arg and ouptut all saved pairs', () => {
       return storage
         .insert({ key: 'key', alias: 'alias' })
-        .then(() => API.exec(`doesn't really matter`, { list: true }))
+        .then(() => API.exec(`this shouldn't doesn't matter`, { [OPTS.LIST]: true }))
         .then(res => {
           const data = _.pick(res[0], ['key', 'alias']);
           expect(data).to.be.deep.equal({ key: 'key', alias: 'alias' });
