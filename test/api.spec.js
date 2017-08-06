@@ -32,17 +32,35 @@ describe('API', () => {
     it('Given a (toKey) flag - Should accpet a QR and return an the corresponding key', () => {
       return API.exec('./test/resources/qr/2.png', { [OPTS.TO_KEY]: true, [OPTS.QR]: true })
         .then(res => {
-          expect(res).to.be.deep.equal({ key: EXAMPLE_KEY });
+          expect(isValidKey(res)).to.be.true;
         });
     });
 
-    it('Given a (list) - Should ignore input arg and ouptut all saved pairs', () => {
+    it('Given a (list) flag - Should ignore input arg and ouptut all saved pairs', () => {
       return storage
         .insert({ key: 'key', alias: 'alias' })
         .then(() => API.exec(`this shouldn't doesn't matter`, { [OPTS.LIST]: true }))
         .then(res => {
           const data = _.pick(res[0], ['key', 'alias']);
           expect(data).to.be.deep.equal({ key: 'key', alias: 'alias' });
+        });
+    });
+
+    it('Given no flags - Should consider arg as alias and return OTP', () => {
+      return storage
+        .insert({ key: 'key', alias: 'some-alias' })
+        .then(() => API.exec('some-alias'))
+        .then(res => {
+          expect(isValidOtp(res)).to.be.true;
+        });
+    });
+
+    it('Given a (toKey) flag without (QR) or (fromKey) flags, - should return key', () => {
+      return storage
+        .insert({ key: 'key', alias: 'some-alias' })
+        .then(() => API.exec('some-alias', { [OPTS.TO_KEY]: true }))
+        .then(res => {
+          expect(res).to.be.equal('key');
         });
     });
   });
