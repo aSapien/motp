@@ -5,18 +5,18 @@ const { expect } = require('chai');
 
 describe('Storage', () => {
   it('Writes key/alias pairs to storage', () => {
-    return insert({ alias: 'test1', key: 'ZVMDU4NOTXEJGGET' })
+    return insert({ alias: 'test123', key: 'ZVMDU4NOTXEJGGET' })
       .then(res => {
         expect(res.key).to.be.equal('ZVMDU4NOTXEJGGET');
       });
   });
 
   it('Removes key/alias pairs from storage', () => {
-    return insert({ alias: 'test1', key: 'ZVMDU4NOTXEJGGET' })
+    return insert({ alias: 'test456', key: 'ZVMDU4NOTXEJGGET' })
       .then(res => {
-        expect(res.alias).to.be.equal('test1');
+        expect(res.alias).to.be.equal('test456');
       })
-      .then(() => remove('test1'))
+      .then(() => remove('test456'))
       .then(numRemoved => {
         expect(numRemoved).to.be.equal(1);
       });

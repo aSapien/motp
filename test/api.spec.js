@@ -1,14 +1,9 @@
 const API = require('../lib/api');
-const chai = require('chai');
-// const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
+const { expect } = require('chai');
 const storage = require('../lib/storage');
 const { isValidOtp, EXAMPLE_KEY, isValidKey } = require('./resources/utils');
 const { OPTS } = require('../lib/constants');
 const _ = require('lodash');
-
-chai.use(sinonChai);
-const expect = chai.expect;
 
 describe('API', () => {
   describe('exec() function', () => {
@@ -40,7 +35,8 @@ describe('API', () => {
         .insert({ key: 'key', alias: 'alias' })
         .then(() => API.exec(`this shouldn't doesn't matter`, { [OPTS.LIST]: true }))
         .then(res => {
-          const data = _.pick(res[0], ['key', 'alias']);
+          const parsed = JSON.parse(res[0]);
+          const data = _.pick(parsed, ['key', 'alias']);
           expect(data).to.be.deep.equal({ key: 'key', alias: 'alias' });
         });
     });
@@ -56,7 +52,7 @@ describe('API', () => {
 
     it('Given a (toKey) flag without (QR) or (fromKey) flags, - should return key', () => {
       return storage
-        .insert({ key: 'key', alias: 'some-alias' })
+        .insert({ key: 'key', alias: 'some-alias-2' })
         .then(() => API.exec('some-alias', { [OPTS.TO_KEY]: true }))
         .then(res => {
           expect(res).to.be.equal('key');

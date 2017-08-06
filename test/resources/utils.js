@@ -1,4 +1,4 @@
-const BASE32_REGEXP = /^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$/;
+const BASE32_REGEXP = /^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$/i;
 
 const isNotEmptyAndIsBase32 = (str) =>
   str.length > 0 && BASE32_REGEXP.test(str);
